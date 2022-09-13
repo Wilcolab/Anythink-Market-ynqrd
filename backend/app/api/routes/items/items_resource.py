@@ -42,6 +42,9 @@ async def list_items(
         offset=items_filters.offset,
         requested_user=user,
     )
+    for item in items:
+        item.image = "https://via.placeholder.com/150" if item.image == '' else item.image
+        
     items_for_response = [
         ItemForResponse.from_orm(item) for item in items
     ]
