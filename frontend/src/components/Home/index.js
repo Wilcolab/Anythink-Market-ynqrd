@@ -18,9 +18,9 @@ const Promise = global.Promise;
 const mapStateToProps = (state) => ({
   ...state.home,
   ...state.itemList,
-  query: state.home.query,
   appName: state.common.appName,
   token: state.common.token,
+  noResults: (state.itemList || []).length < 1,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -62,13 +62,13 @@ class Home extends React.Component {
   // }
 
   handleChange(e) {
-    this.setState({ query: e.target.value });
+    this.props.onChangeQuery(e.target.value);
 
-    if (this.state.query.length >= 2) {
+    if (this.props.query.length >= 2) {
       this.props.executeQuery(
         "all",
         (page) => agent.Items.byTitle,
-        agent.Items.byTitle(this.state.query)
+        agent.Items.byTitle(this.props.query)
       );
     }
   }
@@ -77,6 +77,11 @@ class Home extends React.Component {
     return (
       <div className="home-page">
         <Banner query={this.props.query} handleChange={this.handleChange} />
+        {console.log(this.props.query, this.props.items) ||
+          ((this.props.query || "").length > 1 &&
+            (this.props.items || []).length < 1 && (
+              <h1 id="empty">No results matching your search</h1>
+            ))}
         <ItemList
           pager={this.props.pager}
           items={this.props.items}
