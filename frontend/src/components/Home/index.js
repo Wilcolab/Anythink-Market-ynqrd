@@ -8,12 +8,15 @@ import {
   HOME_PAGE_LOADED,
   HOME_PAGE_UNLOADED,
   APPLY_TAG_FILTER,
+  EXECUTE_ITEMS_SEARCH,
 } from "../../constants/actionTypes";
+import ItemList from "../ItemList";
 
 const Promise = global.Promise;
 
 const mapStateToProps = (state) => ({
   ...state.home,
+  ...state.itemList,
   appName: state.common.appName,
   token: state.common.token,
 });
