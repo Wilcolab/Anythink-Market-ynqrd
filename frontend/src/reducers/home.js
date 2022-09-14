@@ -1,4 +1,5 @@
 import {
+  CHANGE_QUERY,
   HOME_PAGE_LOADED,
   HOME_PAGE_UNLOADED,
 } from "../constants/actionTypes";
@@ -12,6 +13,11 @@ const reducer = (state = {}, action) => {
       };
     case HOME_PAGE_UNLOADED:
       return {};
+    case CHANGE_QUERY:
+      return {
+        ...state,
+        query: action.query,
+      };
     default:
       return state;
   }

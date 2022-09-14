@@ -9,6 +9,7 @@ import {
   HOME_PAGE_UNLOADED,
   APPLY_TAG_FILTER,
   EXECUTE_ITEMS_SEARCH,
+  CHANGE_QUERY,
 } from "../../constants/actionTypes";
 import ItemList from "../ItemList";
 
@@ -17,6 +18,7 @@ const Promise = global.Promise;
 const mapStateToProps = (state) => ({
   ...state.home,
   ...state.itemList,
+  query: state.home.query,
   appName: state.common.appName,
   token: state.common.token,
 });
@@ -29,14 +31,13 @@ const mapDispatchToProps = (dispatch) => ({
   onUnload: () => dispatch({ type: HOME_PAGE_UNLOADED }),
   executeQuery: (title, pager, payload) =>
     dispatch({ type: EXECUTE_ITEMS_SEARCH, title, pager, payload }),
+  onChangeQuery: (query) => dispatch({ type: CHANGE_QUERY, query }),
 });
 
 class Home extends React.Component {
   componentWillMount() {
     const tab = "all";
     const itemsPromise = agent.Items.byTitle;
-
-    this.state = { query: "" };
 
     this.props.onLoad(
       tab,
@@ -75,7 +76,7 @@ class Home extends React.Component {
   render() {
     return (
       <div className="home-page">
-        <Banner query={this.state.query} handleChange={this.handleChange} />
+        <Banner query={this.props.query} handleChange={this.handleChange} />
         <ItemList
           pager={this.props.pager}
           items={this.props.items}
