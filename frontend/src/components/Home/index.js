@@ -27,12 +27,16 @@ const mapDispatchToProps = (dispatch) => ({
   onLoad: (tab, pager, payload) =>
     dispatch({ type: HOME_PAGE_LOADED, tab, pager, payload }),
   onUnload: () => dispatch({ type: HOME_PAGE_UNLOADED }),
+  executeQuery: (title, pager, payload) =>
+    dispatch({ type: EXECUTE_ITEMS_SEARCH, title, pager, payload }),
 });
 
 class Home extends React.Component {
   componentWillMount() {
     const tab = "all";
-    const itemsPromise = agent.Items.all;
+    const itemsPromise = agent.Items.byTitle;
+
+    this.state = { query: "" };
 
     this.props.onLoad(
       tab,
@@ -45,11 +49,52 @@ class Home extends React.Component {
     this.props.onUnload();
   }
 
+  // componentDidUpdate(props, state) {
+  //   if (this.state.query.length > 2) {
+  //     this.props.executeQuery(
+  //       "all",
+  //       (page) => agent.Items.byTitle,
+  //       agent.Items.byTitle(this.state.query)
+  //     );
+  //   }
+  // }
+
+  handleChange(e) {
+    this.setState({ query: e.target.value });
+
+    if (this.state.query.length >= 2) {
+      this.props.executeQuery(
+        "all",
+        (page) => agent.Items.byTitle,
+        agent.Items.byTitle(this.state.query)
+      );
+    }
+  }
+
   render() {
     return (
       <div className="home-page">
         <Banner />
-
+        <div className="flex-row">
+          <h3 className="mr-2 grow-0">A Place to get</h3>
+          <input
+            id="search-box"
+            className="max-w-2"
+            name="search"
+            type="text"
+            placeholder="What is it that you truly desire?"
+            value={this.state.query}
+            onChange={(e) => this.handleChange(e)}
+          />
+          <h3 className="mr-2 grow-0">the cool stuff</h3>
+        </div>
+        <ItemList
+          pager={this.props.pager}
+          items={this.props.items}
+          loading={this.props.loading}
+          itemsCount={this.props.itemsCount}
+          currentPage={this.props.currentPage}
+        />
         <div className="container page">
           <Tags tags={this.props.tags} onClickTag={this.props.onClickTag} />
           <MainView />
