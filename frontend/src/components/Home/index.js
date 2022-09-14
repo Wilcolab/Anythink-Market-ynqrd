@@ -95,10 +95,10 @@ class Home extends React.Component {
           itemsCount={this.props.itemsCount}
           currentPage={this.props.currentPage}
         />
-        <div className="container page">
+        {/* <div className="container page">
           <Tags tags={this.props.tags} onClickTag={this.props.onClickTag} />
-          <MainView />
-        </div>
+          <MainView /> */}
+        {/* </div> */}
       </div>
     );
   }
