@@ -135,10 +135,10 @@ class ItemsRepository(BaseRepository):  # noqa: WPS214
             ).as_(
                 SELLER_USERNAME_ALIAS,
             ),
-        ).where(
-            items.title.ilike(f'%{title}%')
         )
         # fmt: on
+        if title:
+            query = query.where(items.title.ilike(f"%{title}%"))
 
         if tag:
             query_params.append(tag)

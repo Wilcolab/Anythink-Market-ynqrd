@@ -70,6 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const MainView = (props) => {
+  console.log("SWAGNESS", props);
   return (
     <div>
       <div className="feed-toggle">
