@@ -43,6 +43,7 @@ class Home extends React.Component {
       itemsPromise,
       Promise.all([agent.Tags.getAll(), itemsPromise()])
     );
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillUnmount() {
@@ -74,20 +75,7 @@ class Home extends React.Component {
   render() {
     return (
       <div className="home-page">
-        <Banner />
-        <div className="flex-row">
-          <h3 className="mr-2 grow-0">A Place to get</h3>
-          <input
-            id="search-box"
-            className="max-w-2"
-            name="search"
-            type="text"
-            placeholder="What is it that you truly desire?"
-            value={this.state.query}
-            onChange={(e) => this.handleChange(e)}
-          />
-          <h3 className="mr-2 grow-0">the cool stuff</h3>
-        </div>
+        <Banner query={this.state.query} handleChange={this.handleChange} />
         <ItemList
           pager={this.props.pager}
           items={this.props.items}
