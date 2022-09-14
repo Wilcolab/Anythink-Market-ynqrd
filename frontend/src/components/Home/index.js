@@ -77,6 +77,9 @@ class Home extends React.Component {
     return (
       <div className="home-page">
         <Banner query={this.props.query} handleChange={this.handleChange} />
+        {this.props.items && this.props.items.length < 1 && (
+          <h1 id="empty">No results matching your search</h1>
+        )}
         <ItemList
           pager={this.props.pager}
           items={this.props.items}
